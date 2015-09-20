@@ -65,7 +65,33 @@ timeMostSteps <-  gsub("([0-9]{1,2})([0-9]{2})", "\\1:\\2", averageStepsPerTimeB
 
 
 ## Imputing missing values
+##### 1. Calculate and report the total number of missing values in the dataset
+```{r missingValue, echo=TRUE}
+numMissingValues <- length(which(is.na(activityData$steps)))
+```
+
+* Number of missing values: `r numMissingValues`
+
+##### 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
+```{r activityDataImputed, echo=TRUE}
+activityDataImputed <- activityData
+```
 
 
+##### 4. Make a histogram of the total number of steps taken each day
+```{r stepsByDayImputed, echo=TRUE}
+stepsByDayImputed <- tapply(activityDataImputed$steps, activityDataImputed$date, sum)
+qplot(stepsByDayImputed, xlab='Total steps per day (Imputed)', ylab='Frequency using binwith 500', binwidth=500)
+```
+
+##### ... and Calculate and report the mean and median total number of steps taken per day.
+```{r stepsByDayMeanImputed, echo=TRUE}
+stepsByDayMeanImputed <- mean(stepsByDayImputed)
+stepsByDayMedianImputed <- median(stepsByDayImputed)
+```
+* Mean (Imputed): `r stepsByDayMeanImputed`
+* Median (Imputed):  `r stepsByDayMedianImputed`
+
+----
 
 ## Are there differences in activity patterns between weekdays and weekends?
