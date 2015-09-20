@@ -1,21 +1,18 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output:
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 ##### 1. Load the data (i.e. read.csv())
-```{r loaddata, results='markup', warning=TRUE, message=TRUE, echo=TRUE}
+
+```r
 if(!file.exists('activity.csv')){
     unzip('activity.zip')
 }
 activityData <- read.csv('activity.csv')
 ```
 ##### 2. Process/transform the data (if necessary) into a format suitable for your analysis
-```{r processData, echo=TRUE}
+
+```r
 activityData$interval <- strptime(gsub("([0-9]{1,2})([0-9]{2})", "\\1:\\2", activityData$interval), format='%H:%M')
 ```
 ## What is mean total number of steps taken per day?
