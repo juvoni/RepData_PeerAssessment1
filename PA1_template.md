@@ -1,4 +1,5 @@
 # Reproducible Research: Peer Assessment 1
+Sept, 2015  
 
 
 ## Loading and preprocessing the data
@@ -13,7 +14,7 @@ activityData <- read.csv('activity.csv')
 ##### 2. Process/transform the data (if necessary) into a format suitable for your analysis
 
 ```r
-activityData$interval <- strptime(gsub("([0-9]{1,2})([0-9]{2})", "\\1:\\2", activityData$interval), format='%H:%M')
+#activityData$interval <- strptime(gsub("([0-9]{1,2})([0-9]{2})", "\\1:\\2", activityData$interval), format='%H:%M')
 ```
 ## What is mean total number of steps taken per day?
 
@@ -43,6 +44,31 @@ stepsByDayMedian <- median(stepsByDay)
 
 ## What is the average daily activity pattern?
 
+```r
+averageStepsPerTimeBlock <- aggregate(x=list(meanSteps=activityData$steps), by=list(interval=activityData$interval), FUN=mean, na.rm=TRUE)
+```
+
+##### 1. Make a time series plot
+
+```r
+ggplot(data=averageStepsPerTimeBlock, aes(x=interval, y=meanSteps)) +
+    geom_line() +
+    xlab("5-minute interval") +
+    ylab("average number of steps taken")
+```
+
+![](PA1_template_files/figure-html/plotTimeSeries-1.png) 
+
+##### 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+```r
+mostSteps <- which.max(averageStepsPerTimeBlock$meanSteps)
+timeMostSteps <-  gsub("([0-9]{1,2})([0-9]{2})", "\\1:\\2", averageStepsPerTimeBlock[mostSteps,'interval'])
+```
+
+* Most Steps at: 8:35
+
+----
 
 
 ## Imputing missing values
